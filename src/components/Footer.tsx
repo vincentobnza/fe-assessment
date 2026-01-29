@@ -5,7 +5,7 @@ import { FOOTER_SECTIONS } from "@/constants/footer-items"
 
 export default function Footer() {
     return (
-        <footer className="w-full border-t border-border bg-card">
+        <footer className="w-full border-t border-border bg-card pb-10">
             <div className="container mx-auto px-4 py-8 md:px-6 lg:px-8">
                 <div
                     className={cn(
@@ -33,6 +33,11 @@ export default function Footer() {
                         </div>
                     ))}
                 </div>
+
+
+
+
+
             </div>
         </footer>
     )

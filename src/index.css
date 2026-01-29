@@ -5,9 +5,9 @@
 @import "tw-animate-css";
 
 
-/* *{
+*{
   font-family: 'Lexend', sans-serif;
-} */
+}
 
 @custom-variant dark (&:is(.dark *));
 

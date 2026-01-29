@@ -20,7 +20,7 @@ export default function FeaturedCarousel() {
         return null
     }
     return (
-        <section className="mt-2 md:mt-4 lg:mt-6 w-full py-8 p-2 md:p-0">
+        <section className="w-full py-2 md:py-4 p-2 md:p-0">
             <div className="container mx-auto">
                 <Carousel className="w-full">
                     <CarouselContent>
@@ -30,7 +30,7 @@ export default function FeaturedCarousel() {
                                     <img
                                         src={banner.image}
                                         alt=""
-                                        className="h-40 md:h-60 lg:h-70 w-full rounded-none object-cover"
+                                        className="h-32 md:h-60 lg:h-70 w-full rounded-none object-cover"
                                         loading="lazy"
                                     />
                                 </div>

@@ -74,28 +74,28 @@ export default function FeaturedProviders() {
                         </div>
                     </div>
 
-                    <CarouselContent className="-ml-2">
+                    <CarouselContent className="-ml-1 gap-3 sm:-ml-1 sm:gap-3 md:-ml-2 md:gap-4">
                         {providers.map((provider) => (
                             <CarouselItem
                                 key={provider.id}
                                 className={cn(
-                                    // MAKE IT THREE IN MOBILE 
-                                    "pl-3 basis-[33.33333333333333%] sm:basis-[16.666666666666664%] min-w-0",
+                                    "min-w-0 pl-0 pr-0",
+                                    "basis-[48%] sm:basis-[33.333%] md:basis-[25%] lg:basis-[20%]",
                                 )}
                             >
                                 <Link
                                     to={`/providers/${provider.slug}`}
                                     className="group flex flex-col h-full rounded-xl border border-border bg-card overflow-hidden shadow-sm transition-colors hover:shadow-md"
                                 >
-                                    <div className=" w-full flex items-center justify-center bg-muted p-2">
+                                    <div className="w-full flex items-center justify-center bg-muted p-3 sm:p-2">
                                         <img
                                             src={getProviderImageUrl(provider, resolvedTheme)}
                                             alt=""
-                                            className="mw-full h-20"
+                                            className="max-w-full h-16 sm:h-20 object-contain"
                                             loading="lazy"
                                         />
                                     </div>
-                                    <div className="p-3 text-center space-y-0.5">
+                                    <div className="p-2 sm:p-3 text-center space-y-0.5">
                                         <h1 className="text-sm md:text-base tracking-tight font-medium text-foreground line-clamp-1">
                                             {provider.name}
                                         </h1>

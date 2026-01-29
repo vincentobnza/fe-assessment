@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import { Search, ChevronRight } from "lucide-react"
 import { useCategories } from "../hooks/useCategories"
 import { Button } from "@/components/ui/button"
@@ -34,17 +33,28 @@ function CategoryBadgePill({ badge, gamesCount }: { badge?: GameCategory["badge"
 }
 
 export default function CategoriesBar() {
+    const [searchParams, setSearchParams] = useSearchParams()
+    const categoryParam = searchParams.get("category") ?? "inicio"
+    const searchQuery = searchParams.get("search") ?? ""
     const { data: categories, isLoading, isError } = useCategories()
-    const [activeSlug, setActiveSlug] = useState<string>("inicio")
-    const [searchQuery, setSearchQuery] = useState("")
+    const [activeSlug, setActiveSlug] = useState<string>(categoryParam)
     const [filterModalOpen, setFilterModalOpen] = useState(false)
 
+    const handleSearchChange = (query: string) => {
+        setSearchParams(
+            (prev) => {
+                const next = new URLSearchParams(prev)
+                if (query.trim()) next.set("search", query.trim())
+                else next.delete("search")
+                return next
+            },
+            { replace: true }
+        )
+    }
+
     useEffect(() => {
-        const hash = window.location.hash.slice(1)
-        const params = new URLSearchParams(window.location.search)
-        const categoryParam = params.get("category") ?? hash
-        if (categoryParam) setActiveSlug(categoryParam)
-    }, [])
+        setActiveSlug(categoryParam)
+    }, [categoryParam])
 
     if (isLoading) {
         return (
@@ -65,18 +75,22 @@ export default function CategoriesBar() {
     }
 
     return (
-        <section className="w-full border-b border-border bg-card p-2 md:p-0">
+        <section className="w-full border-b border-border bg-card p-2 md:py-4">
             <div className="container mx-auto">
-                <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-6">
+                <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-4 lg:gap-6">
                     {/* Categories strip: horizontal scroll */}
-                    <div className="flex items-end gap-1 overflow-x-auto py-4">
+                    <div className="flex items-end gap-1 overflow-x-auto py-3 md:py-2 md:flex-1 md:min-w-0">
                         <div className="flex items-end gap-0.5 min-w-0">
                             {categories.map((category) => {
                                 const isActive = activeSlug === category.slug
                                 return (
                                     <Link
                                         key={category.id}
-                                        to={`/?category=${category.slug}`}
+                                        to={
+                                            searchQuery
+                                                ? `/?category=${category.slug}&search=${encodeURIComponent(searchQuery)}`
+                                                : `/?category=${category.slug}`
+                                        }
                                         onClick={() => setActiveSlug(category.slug)}
                                         className={cn(
                                             "relative flex shrink-0 flex-col items-center gap-1 rounded-t-lg px-3 pt-2 pb-2.5  border-b-2 border-transparent hover:scale-105 transition-transform duration-500",
@@ -116,15 +130,15 @@ export default function CategoriesBar() {
                     </div>
 
                     {/* Search + Filter */}
-                    <div className="flex flex-1 items-center gap-2 lg:shrink-0">
+                    <div className="flex flex-1 items-center gap-2 md:shrink-0 md:max-w-xs lg:max-w-sm">
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <input
                                 type="search"
                                 placeholder="Encuentra tu juego"
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full rounded-lg border border-input bg-background py-3.5 pl-9 pr-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                                onChange={(e) => handleSearchChange(e.target.value)}
+                                className="w-full rounded-lg border border-input bg-background py-3.5 pl-9 pr-3 text-base placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                                 aria-label="Buscar juego"
                             />
                         </div>
