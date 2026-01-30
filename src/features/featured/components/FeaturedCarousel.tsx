@@ -30,7 +30,7 @@ export default function FeaturedCarousel() {
                                     <img
                                         src={banner.image}
                                         alt=""
-                                        className="h-32 md:h-60 lg:h-70 w-full rounded-none object-cover"
+                                        className="h-34 md:h-60 lg:h-70 w-full rounded-none object-cover"
                                         loading="lazy"
                                     />
                                 </div>

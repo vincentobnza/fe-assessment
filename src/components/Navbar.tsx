@@ -80,6 +80,7 @@ export default function Navbar() {
                         <Button variant="secondary" className="w-full justify-center text-sm" onClick={closeMobileMenu}>
                             REGISTRATE
                         </Button>
+                        <ThemeToggle className="flex w-full justify-center" />
                     </div>
                 </div>
             </div>
